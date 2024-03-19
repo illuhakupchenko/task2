@@ -29,7 +29,7 @@ pipeline {
                
                         script {
                             try {
-                                dir('target') {
+                                dir('./target') {
                                     // Run the "contact.war" application from the "target" folder
                                     sh 'java -jar contact.war'
                                 }
