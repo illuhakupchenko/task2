@@ -27,7 +27,7 @@ pipeline {
                             try {
                                 dir('target') {
                                     // Запускаем приложение
-                                    sh 'java -jar -Dserver.port=9090 contact.war &'
+                                    run('java -jar -Dserver.port=9090 contact.war &')
                                 }
                                 // Даем приложению время на запуск
                                 sleep(time: 30, unit: 'SECONDS')
