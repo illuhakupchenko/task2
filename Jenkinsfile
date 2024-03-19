@@ -23,7 +23,7 @@ pipeline {
                         script {
                             try {
                                 dir('target') {
-                                    run('java -jar contact.war')
+                                    run('java -jar -Dserver.port=9090 contact.war &')
                                 }
                             } catch (Exception e) {
                                 echo "Application failed to start: ${e}"
