@@ -3,7 +3,7 @@ pipeline {
     agent any
     environment {
         // Set the environment variable APP_PORT=9090
-        APP_PORT = '9090'
+        APP_PORT = '8080'
         // Save the job name in a global variable
         JOB_NAME = "${JOB_NAME}"
     }
