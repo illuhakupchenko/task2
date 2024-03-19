@@ -9,7 +9,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn package'
+                script {
+                    // Собираем проект
+                    sh 'mvn package'
+                }
             }
         }
         stage('Integration Test') {
@@ -23,18 +26,21 @@ pipeline {
                         script {
                             try {
                                 dir('target') {
-                                    run('java -jar -Dserver.port=9090 contact.war &')
+                                    // Запускаем приложение
+                                    sh 'java -jar -Dserver.port=9090 contact.war &'
                                 }
+                                // Даем приложению время на запуск
+                                sleep(time: 30, unit: 'SECONDS')
                             } catch (Exception e) {
                                 echo "Application failed to start: ${e}"
-                                currentBuild.result = 'SUCCESS'
+                                currentBuild.result = 'FAILURE'
                             }
                         }
                     }
                 }
                 stage('Running Test') {
                     steps {
-                        sh 'sleep 30'
+                        // Запускаем интеграционные тесты
                         sh 'mvn -Dtest=RestIT test'
                     }
                 }
