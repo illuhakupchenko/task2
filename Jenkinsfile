@@ -1,41 +1,48 @@
 pipeline {
     agent any
-    
+
+    // Save the job name in a global variable
     environment {
-        APP_PORT = '9090'
         JOB_NAME = "${JOB_NAME}"
+        APP_PORT = '9090'
     }
-    
+
+    options {
+        timestamps()
+    }
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -X package'
+                sh 'mvn package'
             }
         }
+        
         stage('Integration Test') {
             parallel {
                 stage('Running Application') {
                     agent any
-                    options {
-                        timeout(time: 60, unit: 'SECONDS')
-                    }
-                    steps {
-                        script {
-                            try {
-                                dir('target') {
-                                    run('java -jar contact.war')
+                    timeout(time: 60, unit: 'SECONDS') {
+                        steps {
+                            script {
+                                try {
+                                    dir('target') {
+                                        sh 'java -jar contact.war'
+                                    }
+                                } catch (Exception e) {
+                                    currentBuild.result = 'SUCCESS'
                                 }
-                            } catch (Exception e) {
-                                echo "Application failed to start: ${e}"
-                                currentBuild.result = 'SUCCESS'
                             }
                         }
                     }
                 }
+                
                 stage('Running Test') {
+                    agent any
                     steps {
-                        sh 'sleep 30'
-                        sh 'mvn -X -Dtest=RestIT test'
+                        timeout(time: 30, unit: 'SECONDS') {
+                            sh 'mvn test -Dtest=RestIT'
+                        }
                     }
                 }
             }
