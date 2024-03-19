@@ -18,7 +18,7 @@ pipeline {
             }
         }
         
-        stage('Integration Test') {
+        stages('Integration Test') {
             parallel {
                 stage('Running Application') {
                     agent any
