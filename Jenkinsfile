@@ -9,10 +9,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Собираем проект
-                    sh 'mvn package'
-                }
+                sh 'mvn package'
             }
         }
         stage('Integration Test') {
@@ -26,12 +23,11 @@ pipeline {
                         script {
                             try {
                                 dir('target') {
-                                    // Запускаем приложение
-                                    sh 'java -jar contact.war &'
+                                    sh 'java -jar contact.war'
                                 }
                                 
                             } catch (Exception e) {
-                                currentBuild.result = 'success'
+                                echo = 'success'
                             }
                         }
                     }
@@ -41,7 +37,7 @@ pipeline {
                         // Запускаем интеграционные тесты, игнорируя ошибки Maven
                         // Даем приложению время на запуск
                         sleep(time: 30, unit: 'SECONDS')
-                        sh 'mvn -Dtest=RestIT test || true'
+                        sh 'mvn -Dtest=RestIT'
                     }
                 }
             }
