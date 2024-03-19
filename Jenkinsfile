@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn package'
+                sh 'mvn -X package'
             }
         }
         stage('Integration Test') {
@@ -35,7 +35,7 @@ pipeline {
                 stage('Running Test') {
                     steps {
                         sh 'sleep 30'
-                        sh 'mvn -Dtest=RestIT test'
+                        sh 'mvn -X -Dtest=RestIT test'
                     }
                 }
             }
