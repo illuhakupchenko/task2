@@ -23,8 +23,7 @@ pipeline {
                         script {
                             try {
                                 dir('target') {
-                                    sh 'ls -l' // List files in the target directory for debugging
-                                    sh 'java -jar contact.war'
+                                    run('java -jar contact.war')
                                 }
                             } catch (Exception e) {
                                 echo "Application failed to start: ${e}"
