@@ -7,10 +7,6 @@ pipeline {
         APP_PORT = '9090'
     }
 
-    options {
-        timestamps()
-    }
-
     stages {
         stage('Build') {
             steps {
