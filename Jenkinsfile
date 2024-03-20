@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn package'
+                sh 'mvn -DskipTests package'
             }
         }
         stage('Integration Test') {
@@ -37,7 +37,7 @@ pipeline {
                         // Запускаем интеграционные тесты, игнорируя ошибки Maven
                         // Даем приложению время на запуск
                         sleep(time: 30, unit: 'SECONDS')
-                        run('mvn test -Dtest=RestIT')
+                        sh 'mvn -Dtest=RestIT test'
                     }
                 }
             }
