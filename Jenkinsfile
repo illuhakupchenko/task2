@@ -23,11 +23,11 @@ pipeline {
                         script {
                             try {
                                 dir('target') {
-                                    sh 'java -jar contact.jar'
+                                    sh 'java -jar -DAPP_PORT=${APP_PORT} contact.war'
                                 }
                                 
                             } catch (Exception e) {
-                                echo = 'success'
+                                echo = 'ERROR'
                             }
                         }
                     }
