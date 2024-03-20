@@ -37,7 +37,7 @@ pipeline {
                         // Запускаем интеграционные тесты, игнорируя ошибки Maven
                         // Даем приложению время на запуск
                         sleep(time: 30, unit: 'SECONDS')
-                        sh 'mvn -Dtest=RestIT'
+                        sh 'mvn integration-test -Dtest=RestIT'
                     }
                 }
             }
